@@ -124,7 +124,7 @@ class WorkoutActivity : ComponentActivity() {
     private lateinit var detector: PoseDetector
 
     private lateinit var previewView: PreviewView
-    private lateinit var overlay: PoseOverlay
+    private lateinit var poseOverlay: PoseOverlay
     private lateinit var titleText: TextView
     private lateinit var tipText: TextView
     private lateinit var repsText: TextView
@@ -178,12 +178,12 @@ class WorkoutActivity : ComponentActivity() {
             implementationMode = PreviewView.ImplementationMode.COMPATIBLE
             scaleType = PreviewView.ScaleType.FILL_CENTER
         }
-        overlay = PoseOverlay(this)
+        poseOverlay = PoseOverlay(this)
         val frame = FrameLayout(this).apply {
             background = shape(Ui.CARD, dpf(24))
             clipToOutline = true
             addView(previewView, FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT))
-            addView(overlay, FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT))
+            addView(poseOverlay, FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT))
         }
         root.addView(frame, LinearLayout.LayoutParams(MATCH_PARENT, 0, 1f).apply {
             topMargin = dp(12); bottomMargin = dp(12)
@@ -299,7 +299,7 @@ class WorkoutActivity : ComponentActivity() {
 
     private fun onPose(pose: Pose, w: Int, h: Int) {
         if (finished) return
-        overlay.set(pose, w, h, mirror)
+        poseOverlay.set(pose, w, h, mirror)
         val ex = exercises[idx]
         val before = ex.reps
         val r = ex.update(pose)
